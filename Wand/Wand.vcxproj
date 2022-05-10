@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{42289faa-ee71-4120-9a28-5e72760fcf1b}</ProjectGuid>
+    <RootNamespace>Wand</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)Wand\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>wand</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Wand\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>wand</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SOLUTION_DIR=R"($(SolutionDir))";_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\FreeType\;$(SolutionDir)Wand\External\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)glfw3.lib;freetype.lib;msdfgen.lib;msdf-atlas-gen.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\msdfgen\lib\$(Configuration)\;$(ProjectDir)Dependencies\GLFW\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SOLUTION_DIR=R"($(SolutionDir))";NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\FreeType\;$(SolutionDir)Wand\External\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)$(ProjectDir)Dependencies\GLFW\lib\$(Configuration)\;$(ProjectDir)Dependencies\msdfgen\lib\$(Configuration)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;msdfgen.lib;msdf-atlas-gen.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="External\stb\stb_image.cpp" />
+    <ClCompile Include="Source\Audio\AudioManager.cpp" />
+    <ClCompile Include="Source\Audio\AudioSource.cpp" />
+    <ClCompile Include="Source\Core\CursorManager.cpp" />
+    <ClCompile Include="Source\Core\EntityManager.cpp" />
+    <ClCompile Include="Source\Core\FileManager.cpp" />
+    <ClCompile Include="Source\Graphics\Color.cpp" />
+    <ClCompile Include="Source\State\State.cpp" />
+    <ClCompile Include="Source\Events\Event.cpp" />
+    <ClCompile Include="Source\Events\EventManager.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Font.cpp" />
+    <ClCompile Include="Source\Graphics\FontManager.cpp" />
+    <ClCompile Include="Source\Graphics\TextGFX.cpp" />
+    <ClCompile Include="Source\Input\Input.cpp" />
+    <ClCompile Include="Source\State\StateManager.cpp" />
+    <ClCompile Include="Source\UI\Button.cpp" />
+    <ClCompile Include="Source\UI\Rectangle.cpp" />
+    <ClCompile Include="Source\UI\Sprite.cpp" />
+    <ClCompile Include="Source\UI\TextBox.cpp" />
+    <ClCompile Include="Source\UI\UIEntity.cpp" />
+    <ClCompile Include="Source\Utils\Logger.cpp" />
+    <ClCompile Include="Source\Utils\Pair.cpp" />
+    <ClCompile Include="Source\Utils\Random.cpp" />
+    <ClCompile Include="Source\Utils\Serializer.cpp" />
+    <ClCompile Include="Source\Wand.cpp" />
+    <ClCompile Include="Source\Core\App.cpp" />
+    <ClCompile Include="Source\Graphics\Drawable.cpp" />
+    <ClCompile Include="Source\Graphics\Base\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Texture.cpp" />
+    <ClCompile Include="Source\Graphics\RectangleGFX.cpp" />
+    <ClCompile Include="Source\Graphics\Renderer.cpp" />
+    <ClCompile Include="Source\Graphics\SpriteGFX.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Transform.cpp" />
+    <ClCompile Include="Source\Input\InputManager.cpp" />
+    <ClCompile Include="Source\Graphics\Base\ShaderProgram.cpp" />
+    <ClCompile Include="Source\Graphics\Base\VertexArray.cpp" />
+    <ClCompile Include="Source\Graphics\Base\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Base\VertexLayout.cpp" />
+    <ClCompile Include="Source\Utils\Utils.cpp" />
+    <ClCompile Include="Source\WandPCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dependencies\stb\stb_image\stb_image.h" />
+    <ClInclude Include="Source\Audio\AudioManager.h" />
+    <ClInclude Include="Source\Audio\AudioSource.h" />
+    <ClInclude Include="Source\Core\App.h" />
+    <ClInclude Include="Source\Core\CursorManager.h" />
+    <ClInclude Include="Source\Core\EntityManager.h" />
+    <ClInclude Include="Source\Core\FileManager.h" />
+    <ClInclude Include="Source\Graphics\Color.h" />
+    <ClInclude Include="Source\State\State.h" />
+    <ClInclude Include="Source\Events\Event.h" />
+    <ClInclude Include="Source\Events\EventManager.h" />
+    <ClInclude Include="Source\Graphics\Drawable.h" />
+    <ClInclude Include="Source\Graphics\Base\Font.h" />
+    <ClInclude Include="Source\Graphics\FontManager.h" />
+    <ClInclude Include="Source\Graphics\Graphics.h" />
+    <ClInclude Include="Source\Graphics\Base\IndexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Base\Texture.h" />
+    <ClInclude Include="Source\Graphics\RectangleGFX.h" />
+    <ClInclude Include="Source\Graphics\Renderer.h" />
+    <ClInclude Include="Source\Graphics\SpriteGFX.h" />
+    <ClInclude Include="Source\Graphics\TextGFX.h" />
+    <ClInclude Include="Source\Graphics\Base\Transform.h" />
+    <ClInclude Include="Source\Input\Input.h" />
+    <ClInclude Include="Source\Input\InputManager.h" />
+    <ClInclude Include="Source\Input\InputMacros.h" />
+    <ClInclude Include="Source\Graphics\Base\ShaderProgram.h" />
+    <ClInclude Include="Source\Graphics\Base\VertexArray.h" />
+    <ClInclude Include="Source\Graphics\Base\VertexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Base\VertexLayout.h" />
+    <ClInclude Include="Source\State\StateManager.h" />
+    <ClInclude Include="Source\UI\Button.h" />
+    <ClInclude Include="Source\UI\Rectangle.h" />
+    <ClInclude Include="Source\UI\Sprite.h" />
+    <ClInclude Include="Source\UI\TextBox.h" />
+    <ClInclude Include="Source\UI\UIEntity.h" />
+    <ClInclude Include="Source\Utils\Logger.h" />
+    <ClInclude Include="Source\Utils\Pair.h" />
+    <ClInclude Include="Source\Utils\Random.h" />
+    <ClInclude Include="Source\Utils\Serializer.h" />
+    <ClInclude Include="Source\Utils\Utils.h" />
+    <ClInclude Include="Source\WandPCH.h" />
+    <ClInclude Include="Source\Core\Window.h" />
+    <ClInclude Include="Source\Wand.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Graphics\Base\Shaders\Standard.frag" />
+    <None Include="Source\Graphics\Base\Shaders\Standard.vert" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
