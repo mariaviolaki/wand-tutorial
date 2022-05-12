@@ -31,7 +31,6 @@ namespace wand
 
 		/* Transform operations */
 		Transform* GetTransform() const;
-		void SetTransform(bool isLayoutChild);
 		const Transform* GetParentTransform() const;
 		void SetParentTransform(Transform* transform);
 		void SetParentLayoutPos(LayoutPosition horizontal, LayoutPosition vertical);
@@ -51,7 +50,7 @@ namespace wand
 		Transform* mParentTransform;
 
 		Drawable();
-		void UpdateTransform(bool adoptDimens = false);
+		void UpdateTransform();
 
 	private:
 		std::unique_ptr<ParentLayoutPos> mParentLayoutPos;

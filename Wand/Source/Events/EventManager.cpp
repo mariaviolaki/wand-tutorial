@@ -127,9 +127,7 @@ namespace wand
 		scale.y = dimens.y / mWindow->GetStartHeight();
 		// Reset the projection matrix in the renderer
 		mRenderer->ResetProjectionMatrix(0, 0, dimens.x, dimens.y);
-		// Resize the objects drawn to the window
-		for (auto& entity : mEntities)
-			entity->GetTransform()->SetScale(scale.x, scale.y);
+		ResizeEntities(scale);
 	}
 
 	void EventManager::ProcessUIEvent(Event* event)
@@ -202,6 +200,25 @@ namespace wand
 			dimens.y = event->GetWidth() * (mWindow->GetAspectRatio().y / mWindow->GetAspectRatio().x);
 			pos.x = 0;
 			pos.y = (event->GetHeight() - dimens.y) / 2;
+		}
+	}
+
+	void EventManager::ResizeEntities(glm::vec2 scale)
+	{
+		// Resize the objects drawn to the window
+		for (auto& entity : mEntities)
+		{
+			entity->GetTransform()->SetScale(scale.x, scale.y);
+			if (dynamic_cast<TextBox*>(entity))
+			{
+				auto text = static_cast<TextGFX*>(entity->GetDrawable());
+				text->SetFont(text->GetFontName(), scale.x * text->GetStartFontSize());
+			}
+			else if (dynamic_cast<Button*>(entity))
+			{
+				auto text = static_cast<TextGFX*>(static_cast<Button*>(entity)->GetTextDrawable());
+				text->SetFont(text->GetFontName(), scale.x * text->GetStartFontSize());
+			}
 		}
 	}
 

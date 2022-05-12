@@ -17,41 +17,29 @@ namespace wand
 	{}
 	
 	Transform* Drawable::GetTransform() const { return mTransform.get(); }
-	void Drawable::SetTransform(bool isLayoutChild) { mTransform.reset(new Transform(isLayoutChild)); }
 	const Transform* Drawable::GetParentTransform() const { return mParentTransform; }
 	void Drawable::SetParentTransform(Transform* transform) { mParentTransform = transform; }
 
 	void Drawable::SetParentLayoutPos(LayoutPosition horizontal, LayoutPosition vertical)
 	{
+		mTransform->SetLayoutChild(true);
 		mParentLayoutPos = std::make_unique<ParentLayoutPos>(ParentLayoutPos({ horizontal, vertical }));
 	}
 
 	void Drawable::SetParentLayoutCoords(float x, float y)
 	{
+		mTransform->SetLayoutChild(true);
 		mParentLayoutCoords = std::make_unique<ParentLayoutCoords>(ParentLayoutCoords({ x, y }));
 	}
 
-	void Drawable::UpdateTransform(bool adoptDimens)
+	void Drawable::UpdateTransform()
 	{
 		if (!mParentTransform)
 			return;
 
-		float width, height;
-		if (adoptDimens)
-		{
-			width = mParentTransform->GetWidth();
-			height = mParentTransform->GetHeight();
-		}
-		else // keep own dimensions
-		{
-			width = mTransform->GetWidth();
-			height = mTransform->GetHeight();
-		}
-		SetTransform(true);
+		mTransform->SetLayoutChild(true);
 		mTransform->SetLayer(mParentTransform->GetLayer());
 		mTransform->SetScale(mParentTransform->GetScale().x, mParentTransform->GetScale().y);
-		mTransform->SetWidth(width);
-		mTransform->SetHeight(height);
 		if (mParentLayoutPos)
 			mTransform->SetPos(FindHorizontalPos(), FindVerticalPos());
 		else if (mParentLayoutCoords)

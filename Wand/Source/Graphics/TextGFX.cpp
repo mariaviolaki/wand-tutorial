@@ -7,13 +7,14 @@ namespace wand
 {
 	TextGFX::TextGFX(const std::string& fontName, unsigned int fontSize, Color color)
 		: Drawable(), mFontManager(nullptr), mFont(nullptr), mFontName(fontName), mFontSize(fontSize),
-		mColor(color), mText(""), mTexture(nullptr), mVertices(), mTextDimens(0.0f), mIsTextCentered(false)
+		mStartFontSize(fontSize), mColor(color), mText(""), mTexture(nullptr), mVertices(), mTextDimens(0.0f),
+		mIsTextCentered(false), mOffset({0.0f, 0.0f})
 	{}
 
 	void TextGFX::SetFontManager(FontManager* fontManager)
 	{
 		mFontManager = fontManager;
-		Init();
+		SetupFont();
 	}
 
 	void TextGFX::Add(const std::string& newText)
@@ -23,9 +24,20 @@ namespace wand
 		else
 			Logger::EngineLog("TextGFX", "Submitted text exceeds max character limit.\n");
 	}
+
 	void TextGFX::Clear() { mText = ""; }
-	unsigned int TextGFX::GetMaxLength() const	{ return MAX_TEXT_LENGTH; }
 	void TextGFX::SetCenteredText(bool isTextCentered) { mIsTextCentered = isTextCentered; }
+	void TextGFX::SetFont(std::string fontName, unsigned int fontSize)
+	{
+		mFontName = fontName;
+		mFontSize = fontSize;
+		SetupFont();
+	}
+	unsigned int TextGFX::GetMaxLength() const { return MAX_TEXT_LENGTH; }
+
+	std::string TextGFX::GetFontName() const { return mFontName; }
+	unsigned int TextGFX::GetFontSize() const { return mFontSize; }
+	unsigned int TextGFX::GetStartFontSize() const { return mStartFontSize; }
 
 	Color TextGFX::GetColor() const { return mColor; }
 	void TextGFX::SetColor(Color color) { mColor = color; }
@@ -40,18 +52,16 @@ namespace wand
 	const std::vector<Vertex>& TextGFX::GetVertexData()
 	{
 		mVertices.clear();
-		UpdateTransform(true); // true = text will fit its potential container
+		UpdateTransform();
 
 		// Get font atlas dimensions
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
-		// Get the scale of the textbox
-		Vector2 scale = mTransform->GetScale();
 		// Set the SPACE width to be equal to the width of a dot '.'
-		float spaceWidth = scale.x * mFont->GetGlyphs().at('.')->width;
+		float spaceWidth = mFont->GetGlyphs().at('.')->width;
 		// Find the text's starting position
 		glm::vec2 pos = GetTextStartPos(spaceWidth);
-		pos.y -= scale.y * mFontSize;
+		pos.y -= mFontSize;
 
 		for (int i = 0; i < mText.size(); i++)
 		{
@@ -60,45 +70,45 @@ namespace wand
 			auto glyph = mFont->GetGlyphs().at(glyphIndex);
 
 			// Get the correct position and dimensions for the current character
-			float glyphYPos = pos.y - scale.y * (glyph->height - glyph->bearingY);
+			float glyphYPos = pos.y - (glyph->height - glyph->bearingY);
 			float glyphXPos = pos.x;
-			float glyphHeight = scale.y * glyph->height;
-			float glyphWidth = scale.x * glyph->width;
+			float glyphHeight = glyph->height;
+			float glyphWidth = glyph->width;
 			if (std::isspace(mText[i]))
 				glyphWidth = spaceWidth;
 
 			// Get the bounds of the glyph in the atlas
 			float lBound = glyph->atlasCoordX;
-			float bBound = glyphHeight / scale.y;
-			float rBound = lBound + glyphWidth / scale.x;
+			float bBound = glyphHeight;
+			float rBound = lBound + glyphWidth;
 			float tBound = 0;
 
 			/// Create the glyphs's vertices and add them to the vector of vertices for the entire text
 			/// Texture coordinates are flipped vertically
 			// Bottom left corner
-			CreateVertex(glyphXPos + scale.x * glyph->bearingX, glyphYPos,
+			CreateVertex(glyphXPos + glyph->bearingX, glyphYPos,
 				lBound / atlasWidth, bBound / atlasHeight);
 			// Bottom right corner
-			CreateVertex(glyphXPos + 2 * scale.x * glyph->bearingX + glyphWidth, glyphYPos,
+			CreateVertex(glyphXPos + 2 * glyph->bearingX + glyphWidth, glyphYPos,
 				rBound / atlasWidth, bBound / atlasHeight);
 			// Top right corner
-			CreateVertex(glyphXPos + 2 * scale.x *  glyph->bearingX + glyphWidth, glyphYPos + glyphHeight,
+			CreateVertex(glyphXPos + 2 * glyph->bearingX + glyphWidth, glyphYPos + glyphHeight,
 				rBound / atlasWidth, tBound / atlasHeight);
 			// Top left corner
-			CreateVertex(glyphXPos + scale.x * glyph->bearingX, glyphYPos + glyphHeight,
+			CreateVertex(glyphXPos + glyph->bearingX, glyphYPos + glyphHeight,
 				lBound / atlasWidth, tBound / atlasHeight);
 
-			UpdateGlyphPos(i, pos.x, pos.y, mTransform->GetScale().x * glyph->advanceX);
+			UpdateGlyphPos(i, pos.x, pos.y, glyph->advanceX);
 		}
 		return mVertices;
 	}
 
-	void TextGFX::Init()
+	void TextGFX::SetupFont()
 	{
 		// Get the correct font from the font manager
 		mFont = mFontManager->Get(mFontName, mFontSize);
 		// Create a texture using the pixel data generated for a font atlas
-		mTexture = std::make_shared<Texture>(*mFont);
+		mTexture.reset(new Texture(*mFont));
 	}
 
 	void TextGFX::CreateVertex(const float posX, const float posY, const float texX, const float texY)
@@ -124,11 +134,12 @@ namespace wand
 			unsigned int wordIndex = index + 2;
 			unsigned int nextWordWidth = GetNextWordWidth(wordIndex);
 			// If the next word doesn't fit inside the textbox
-			if (x + nextWordWidth >= mTransform->GetScale().x * GetTransform()->GetWidth())
+			if (x + nextWordWidth >= mTransform->GetScale().x * 
+				(mTransform->GetPos().x + mTransform->GetWidth()) - mFontSize)
 			{
 				// Start rendering words on the next line
-				x = mTransform->GetScale().x * GetTransform()->GetPos().x;
-				y -= mTransform->GetScale().y * mFontSize;
+				x = mTransform->GetScale().x * mTransform->GetPos().x + mOffset.x;
+				y -= mFontSize;
 				index++;
 			}
 		}
@@ -156,12 +167,13 @@ namespace wand
 			wordWidth += glyph->advanceX;
 		}
 		glyphIndex = nextSpaceIndex + 1;
-		return mTransform->GetScale().x * wordWidth;
+		return wordWidth;
 	}
 
 	void TextGFX::FindTextDimens(float spaceWidth)
 	{
 		mTextDimens = { 0.0f, 0.0f };
+		mOffset = { 0.0f, 0.0f };
 		float lineWidth = 0.0f;
 		unsigned int wordIndex = 0;
 		while (wordIndex < mText.size())
@@ -175,7 +187,7 @@ namespace wand
 				if (lineWidth > mTextDimens.x)
 					mTextDimens.x = lineWidth;
 				// Add the next line's height
-				mTextDimens.y += mTransform->GetScale().y * mFontSize;
+				mTextDimens.y += mFontSize;
 				// Reset line width
 				lineWidth = nextWordWidth;
 			}
@@ -188,9 +200,8 @@ namespace wand
 		// Keep the biggest line width
 		if (lineWidth > mTextDimens.x)
 			mTextDimens.x = lineWidth;
-		// Set a minimum height if the text is a single line
-		if (mTextDimens.y == 0.0f)
-			mTextDimens.y = mTransform->GetScale().y * mFontSize;
+		// Add the height of the last line
+		mTextDimens.y += mFontSize;
 	}
 
 	glm::vec2 TextGFX::GetTextStartPos(float spaceWidth)
@@ -200,10 +211,10 @@ namespace wand
 			mTransform->GetScale().y * mTransform->GetPos().y + mTransform->GetScale().y * mTransform->GetHeight() };
 
 		FindTextDimens(spaceWidth);
-		float xOffset = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2;
-		float yOffset = (mTransform->GetHeight() * mTransform->GetScale().y - mTextDimens.y) / 2;
-		float xPos = mTransform->GetPos().x * mTransform->GetScale().x + xOffset;
-		float yPos = mTransform->GetPos().y * mTransform->GetScale().y + yOffset + mTextDimens.y;
+		mOffset.x = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2;
+		mOffset.y = (mTransform->GetHeight() * mTransform->GetScale().y - mTextDimens.y) / 2; 
+		float xPos = mTransform->GetPos().x * mTransform->GetScale().x + mOffset.x;
+		float yPos = mTransform->GetPos().y * mTransform->GetScale().y + mOffset.y + mTextDimens.y;
 		return { xPos, yPos };
 	}
 }

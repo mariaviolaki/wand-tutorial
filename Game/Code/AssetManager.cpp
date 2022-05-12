@@ -74,9 +74,6 @@ void AssetManager::LoadFonts()
 
 	mApp->GetFontManager()->Add(fontDir + "Sundae-Ice.ttf", "Sundae-Ice", 30);
 	mFonts.emplace_back(mApp->GetFontManager()->Get("Sundae-Ice", 30));
-
-	mApp->GetFontManager()->Add(fontDir + "Sundae-Ice.ttf", "Sundae-Ice", 40);
-	mFonts.emplace_back(mApp->GetFontManager()->Get("Sundae-Ice", 40));
 }
 
 void AssetManager::LoadSprites()
@@ -90,17 +87,27 @@ void AssetManager::LoadRectangles()
 	textRect->SetLabel("text rect");
 	textRect->GetTransform()->SetPos(0, 0);
 	textRect->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth());
-	textRect->GetTransform()->SetHeight(150);
+	textRect->GetTransform()->SetHeight(140);
 	textRect->GetTransform()->SetLayer(2);
 	
 	// Background rectangle for character names
 	auto nameRect = mApp->GetEntityManager()->AddRectangle(wand::Color(51, 51, 51, 240));
 	mRectangles.emplace_back(nameRect);
 	nameRect->SetLabel("name rect");
-	nameRect->GetTransform()->SetPos(0, 150);
+	nameRect->GetTransform()->SetPos(0, 140);
 	nameRect->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth());
 	nameRect->GetTransform()->SetHeight(50);
 	nameRect->GetTransform()->SetLayer(2);
+
+	// Transparent layout for choice buttons
+	auto choiceButtonRect = mApp->GetEntityManager()->AddRectangle(wand::Color(0, 0, 0, 0));
+	mRectangles.emplace_back(choiceButtonRect);
+	choiceButtonRect->SetLabel("choice button rect");
+	choiceButtonRect->GetTransform()->SetPos(0, 0);
+	choiceButtonRect->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth());
+	choiceButtonRect->GetTransform()->SetHeight(mApp->GetWindow()->GetStartHeight());
+	choiceButtonRect->GetTransform()->SetLayer(4);
+	choiceButtonRect->Hide();
 }
 
 void AssetManager::LoadTextBoxes()
@@ -111,13 +118,13 @@ void AssetManager::LoadTextBoxes()
 	textBox->GetTransform()->SetPos(20, 10);
 	textBox->GetTransform()->SetLayer(3);
 	textBox->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth() - 20);
-	textBox->GetTransform()->SetHeight(140);
+	textBox->GetTransform()->SetHeight(130);
 	textBox->SetLabel("textbox");
 
 	// Textbox for character names
 	auto nameBox = mApp->GetEntityManager()->AddTextBox("Sundae-Ice", 40, wand::Color(237, 175, 184, 255));
 	mTextBoxes.emplace_back(nameBox);
-	nameBox->GetTransform()->SetPos(20, 150);
+	nameBox->GetTransform()->SetPos(20, 140);
 	nameBox->GetTransform()->SetLayer(3);
 	nameBox->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth() - 20);
 	nameBox->GetTransform()->SetHeight(50);
@@ -125,7 +132,21 @@ void AssetManager::LoadTextBoxes()
 }
 
 void AssetManager::LoadButtons()
-{}
+{
+	std::string imageDir = mApp->GetFileManager()->GetRootFolder() + "Game\\Images\\";
+	// Create 3 choice buttons
+	for (int i = 1; i < 4; i++)
+	{
+		auto choiceButton = mApp->GetEntityManager()->AddButton(
+			imageDir + "choice_button.png", "Sundae-Ice", 25, wand::Color(255, 255, 255, 255));
+		mButtons.emplace_back(choiceButton);
+		choiceButton->SetLabel("choice button " + std::to_string(i));
+		choiceButton->GetTransform()->SetWidth((2 * mApp->GetWindow()->GetStartWidth()) / 3);
+		choiceButton->GetTransform()->SetHeight(100);
+		choiceButton->GetTransform()->SetLayer(4);
+		choiceButton->Hide();
+	}
+}
 
 void AssetManager::LoadBackgrounds()
 {
@@ -169,6 +190,14 @@ void AssetManager::LoadCharacters()
 	auto voidSurprised = mApp->GetEntityManager()->AddSprite(imageDir + "void_surprised.png");
 	voidSurprised->SetLabel("void surprised");
 	cVoid->AddSprite(voidSurprised);
+
+	auto voidShySmile = mApp->GetEntityManager()->AddSprite(imageDir + "void_shy_smile.png");
+	voidShySmile->SetLabel("void shy smile");
+	cVoid->AddSprite(voidShySmile);
+
+	auto voidEvil = mApp->GetEntityManager()->AddSprite(imageDir + "void_evil.png");
+	voidEvil->SetLabel("void evil");
+	cVoid->AddSprite(voidEvil);
 
 	// Set common character data after loading all sprites
 	cVoid->SetWidth(450);
