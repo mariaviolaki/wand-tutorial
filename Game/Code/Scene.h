@@ -7,7 +7,7 @@ class Scene
 public:
 	// Returns true when the scene is finished
 	virtual bool Play() = 0;
-	void ContinueAfterClick(unsigned int scenePart);
+	void ProceedToScenePart(unsigned int scenePart);
 
 protected:
 	std::shared_ptr<wand::App> mApp;

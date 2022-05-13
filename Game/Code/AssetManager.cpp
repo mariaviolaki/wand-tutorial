@@ -199,6 +199,14 @@ void AssetManager::LoadCharacters()
 	voidEvil->SetLabel("void evil");
 	cVoid->AddSprite(voidEvil);
 
+	auto voidConfident = mApp->GetEntityManager()->AddSprite(imageDir + "void_confident.png");
+	voidConfident->SetLabel("void confident");
+	cVoid->AddSprite(voidConfident);
+
+	auto voidEvilSmile = mApp->GetEntityManager()->AddSprite(imageDir + "void_evil_smile.png");
+	voidEvilSmile->SetLabel("void evil smile");
+	cVoid->AddSprite(voidEvilSmile);
+
 	// Set common character data after loading all sprites
 	cVoid->SetWidth(450);
 	cVoid->SetHeight(mApp->GetWindow()->GetStartHeight() - 20);

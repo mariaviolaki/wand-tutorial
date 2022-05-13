@@ -105,6 +105,7 @@
     <ClCompile Include="Code\AssetManager.cpp" />
     <ClCompile Include="Code\Scene.cpp" />
     <ClCompile Include="Code\Scene0.cpp" />
+    <ClCompile Include="Code\Scene1.cpp" />
     <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -112,6 +113,7 @@
     <ClInclude Include="Code\AssetManager.h" />
     <ClInclude Include="Code\Scene.h" />
     <ClInclude Include="Code\Scene0.h" />
+    <ClInclude Include="Code\Scene1.h" />
     <ClInclude Include="Code\SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

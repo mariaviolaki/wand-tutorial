@@ -23,7 +23,6 @@ namespace wand
 		void HandleEvent(Event* event);
 
 	private:
-		std::vector<std::unique_ptr<Event>> mInputEvents;
 		std::vector<UIEntity*> mEntities;
 		std::vector<UIEntity*> mActiveEntities;
 		Window* mWindow;
@@ -37,9 +36,9 @@ namespace wand
 		void HandleInputEvent(Event* inputEvent);
 
 		void ProcessWindowResize(WindowResizeEvent* event);
-		void ProcessUIEvent(Event* event);
+		bool ProcessUIEvent(Event* event);
 		// Run a function corresponding to a UI entity
-		void ProcessUIFunction(UIEntity* entity, Event* event);
+		bool ProcessUIFunction(UIEntity* entity, Event* event);
 
 		void ResetWindowBounds(WindowResizeEvent* event, glm::vec2& pos, glm::vec2& dimens);
 		void ResizeEntities(glm::vec2 scale);

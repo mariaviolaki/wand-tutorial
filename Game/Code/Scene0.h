@@ -15,5 +15,4 @@ private:
 	wand::Character* mVoid;
 	wand::Button* mChoiceButton1;
 	wand::Button* mChoiceButton2;
-	float mScale;
 };

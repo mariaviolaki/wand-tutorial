@@ -23,7 +23,6 @@ namespace wand
 	{
 		// Clear the events of the last frame
 		mInput->ClearEvents();
-		mInputEvents.clear();
 	}
 
 	void EventManager::SetEntities(std::vector<std::unique_ptr<UIEntity>>& entities)
@@ -70,43 +69,18 @@ namespace wand
 
 	void EventManager::HandleInputEvent(Event* inputEvent)
 	{
-		// Push the correct event to the event buffer
-		switch (inputEvent->GetType())
+		// Don't process the event twice
+		if (ProcessUIEvent(inputEvent))
+			return;
+
+		// Save the position of the mouse in case it doesn't move in the next frame
+		if (inputEvent->GetType() == EventType::MouseMove)
 		{
-		case EventType::KeyDown:
-			mInputEvents.emplace_back(
-				std::unique_ptr<KeyDownEvent>(static_cast<KeyDownEvent*>(inputEvent)));
-			break;
-		case EventType::KeyUp:
-			mInputEvents.emplace_back(
-				std::unique_ptr<KeyUpEvent>(static_cast<KeyUpEvent*>(inputEvent)));
-			break;
-		case EventType::MouseButtonDown:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseButtonDownEvent>(static_cast<MouseButtonDownEvent*>(inputEvent)));
-			break;
-		case EventType::MouseButtonUp:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseButtonUpEvent>(static_cast<MouseButtonUpEvent*>(inputEvent)));
-			break;
-		case EventType::MouseScrollX:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseScrollXEvent>(static_cast<MouseScrollXEvent*>(inputEvent)));
-			break;
-		case EventType::MouseScrollY:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseScrollYEvent>(static_cast<MouseScrollYEvent*>(inputEvent)));
-			break;
-		case EventType::MouseMove:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseMoveEvent>(static_cast<MouseMoveEvent*>(inputEvent)));
-			// Save the position of the mouse in case it doesn't move in the next frame
 			mXPos = static_cast<MouseMoveEvent*>(inputEvent)->GetXPos();
 			mYPos = static_cast<MouseMoveEvent*>(inputEvent)->GetYPos();
 			mInput->SetMousePos(mXPos, mYPos);
-			break;
 		}
-		ProcessUIEvent(inputEvent);
+
 		// Send the event to the Input class
 		mInput->AddEvent(inputEvent);
 	}
@@ -130,13 +104,13 @@ namespace wand
 		ResizeEntities(scale);
 	}
 
-	void EventManager::ProcessUIEvent(Event* event)
+	bool EventManager::ProcessUIEvent(Event* event)
 	{
 		// Do nothing if there are no enabled entities
 		if (mActiveEntities.empty())
 		{
 			mCursorManager->SetCursor(CursorType::ARROW);
-			return;
+			return false;
 		}
 
 		// Add the entities in the current mouse position to one vector
@@ -151,7 +125,7 @@ namespace wand
 		if (validEntities.empty())
 		{
 			mCursorManager->SetCursor(CursorType::ARROW);
-			return;
+			return false;
 		}
 
 		// Switch to the hand cursor because there are enabled entities in this position
@@ -159,19 +133,19 @@ namespace wand
 
 		// Run the function of the entity in front of the others
 		SortEntities(validEntities);
-		ProcessUIFunction(validEntities[0], event);
+		return ProcessUIFunction(validEntities[0], event);
 	}
 
-	void EventManager::ProcessUIFunction(UIEntity* entity, Event* event)
+	bool EventManager::ProcessUIFunction(UIEntity* entity, Event* event)
 	{
 		std::function<void()> function;
 
 		// Get the appropriate function
-		if (event->GetType() == EventType::MouseButtonUp)
+		if (event->GetType() == EventType::MouseButtonRelease)
 		{
-			if (static_cast<MouseButtonUpEvent*>(event)->GetButton() == MOUSE_BUTTON_LEFT)
+			if (static_cast<MouseButtonReleaseEvent*>(event)->GetButton() == MOUSE_BUTTON_LEFT)
 				function = entity->GetLeftClickFunction();
-			else if (static_cast<MouseButtonUpEvent*>(event)->GetButton() == MOUSE_BUTTON_RIGHT)
+			else if (static_cast<MouseButtonReleaseEvent*>(event)->GetButton() == MOUSE_BUTTON_RIGHT)
 				function = entity->GetRightClickFunction();
 		}
 		else
@@ -180,8 +154,10 @@ namespace wand
 		}
 
 		// Run the function if there is one set
-		if (function)
-			function();
+		if (!function)
+			return false;	
+		function();
+		return true;
 	}
 
 	void EventManager::ResetWindowBounds(WindowResizeEvent* event, glm::vec2& pos, glm::vec2& dimens)
