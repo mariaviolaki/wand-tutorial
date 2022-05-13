@@ -58,12 +58,15 @@ namespace wand
 
 	void EventManager::HandleWindowEvent(Event* windowEvent)
 	{
-		switch (windowEvent->GetType())
+		if (windowEvent->GetType() == EventType::WindowResize)
 		{
-		case EventType::WindowResize:
 			std::unique_ptr<WindowResizeEvent> event(static_cast<WindowResizeEvent*>(windowEvent));
 			ProcessWindowResize(static_cast<WindowResizeEvent*>(event.get()));
-			break;
+		}
+		else if (windowEvent->GetType() == EventType::WindowClose)
+		{
+			std::unique_ptr<WindowCloseEvent> event(static_cast<WindowCloseEvent*>(windowEvent));
+			mWindow->RunCloseFunctions();
 		}
 	}
 

@@ -1,14 +1,9 @@
 #include "Scene1.h"
 
-Scene1::Scene1(std::shared_ptr<wand::App> app, std::shared_ptr<AssetManager> assetManager)
-	: Scene(app, assetManager)
-{
-	// Load the assets used in this scene
-	mTextBox = mAssetManager->Get<wand::TextBox*>("textbox");
-	mVoid = mAssetManager->Get<wand::Character*>("Void");
-	mChoiceButton1 = mAssetManager->Get<wand::Button*>("choice button 1");
-	mChoiceButton2 = mAssetManager->Get<wand::Button*>("choice button 2");
-}
+Scene1::Scene1(std::shared_ptr<wand::App> app, 
+	std::shared_ptr<AssetManager> assetManager, std::shared_ptr<SceneData> sceneData)
+	: Scene(app, assetManager, sceneData)
+{}
 
 bool Scene1::Play()
 {
@@ -73,10 +68,10 @@ bool Scene1::Play()
 	else if (mPart == 8)
 	{
 		mChoiceButton1->SetText("Yeah, right.");
-		mChoiceButton1->OnLeftClick([this]() { this->mPart = 11; });
+		mChoiceButton1->OnLeftClick([this]() { mSceneData->likability--; this->mPart = 11; });
 		mChoiceButton1->Show();
 		mChoiceButton2->SetText("I believe so too.");
-		mChoiceButton2->OnLeftClick([this]() { this->mPart = 9; });
+		mChoiceButton2->OnLeftClick([this]() { mSceneData->likability++; this->mPart = 9; });
 		mChoiceButton2->Show();
 	}
 	else if (mPart == 9)
@@ -146,10 +141,10 @@ bool Scene1::Play()
 	else if (mPart == 19)
 	{
 		mChoiceButton1->SetText("Sure!");
-		mChoiceButton1->OnLeftClick([this]() { this->mPart = 20; });
+		mChoiceButton1->OnLeftClick([this]() { mSceneData->likability++; this->mPart = 20; });
 		mChoiceButton1->Show();
 		mChoiceButton2->SetText("Finally! I was getting kinda bored...");
-		mChoiceButton2->OnLeftClick([this]() { this->mPart = 20; });
+		mChoiceButton2->OnLeftClick([this]() { mSceneData->likability--; this->mPart = 20; });
 		mChoiceButton2->Show();
 	}
 	else if (mPart == 20)
@@ -159,6 +154,7 @@ bool Scene1::Play()
 		mTextBox->SetText("Close the game then, and when you come back, "
 			+ std::string("I'll tell you what I think of you ")
 			+ std::string("based on the answers you've given me so far."));
+		mSceneData->lastSceneIndex = 1;
 		ProceedToScenePart(21);
 	}
 	else if (mPart == 21)
@@ -169,7 +165,7 @@ bool Scene1::Play()
 	}
 	else if (mPart == 22)
 	{
-		mTextBox->SetText("......");
+		mTextBox->SetText(".........");
 		ProceedToScenePart(23);
 	}
 	else if (mPart == 23)

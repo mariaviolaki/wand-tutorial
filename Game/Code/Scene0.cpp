@@ -1,27 +1,9 @@
 #include "Scene0.h"
 
-Scene0::Scene0(std::shared_ptr<wand::App> app, std::shared_ptr<AssetManager> assetManager)
-	: Scene(app, assetManager)
-{
-	// Load the assets used in this scene
-	mChoiceButtonRect = mAssetManager->Get<wand::Rectangle*>("choice button rect");
-	mNameBox = mAssetManager->Get<wand::TextBox*>("namebox");
-	mTextBox = mAssetManager->Get<wand::TextBox*>("textbox");
-	mBackground = mAssetManager->Get<wand::Background*>("main background");
-	mVoid = mAssetManager->Get<wand::Character*>("Void");
-	mChoiceButton1 = mAssetManager->Get<wand::Button*>("choice button 1");
-	mChoiceButton2 = mAssetManager->Get<wand::Button*>("choice button 2");
-	float scale = mBackground->GetTransform()->GetScale().x;
-
-	// Customize the entities
-	mVoid->SetParentLayout(mBackground->GetTransform());
-	mChoiceButton1->SetParentLayout(mChoiceButtonRect->GetTransform());
-	mChoiceButton1->GetTextTransform()->SetWidth(mChoiceButton1->GetTransform()->GetWidth() - 20 * scale);
-	mChoiceButton1->GetTextTransform()->SetHeight(mChoiceButton1->GetTransform()->GetHeight() - 20 * scale);
-	mChoiceButton2->SetParentLayout(mChoiceButtonRect->GetTransform());
-	mChoiceButton2->GetTextTransform()->SetWidth(mChoiceButton2->GetTransform()->GetWidth() - 20 * scale);
-	mChoiceButton2->GetTextTransform()->SetHeight(mChoiceButton2->GetTransform()->GetHeight() - 20 * scale);
-}
+Scene0::Scene0(std::shared_ptr<wand::App> app,
+	std::shared_ptr<AssetManager> assetManager, std::shared_ptr<SceneData> sceneData)
+	: Scene(app, assetManager, sceneData)
+{}
 
 bool Scene0::Play()
 {
@@ -31,7 +13,6 @@ bool Scene0::Play()
 	{
 		mBackground->SetSprite("weird forest");
 		mVoid->SetSprite("void smile");
-		mVoid->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::BOTTOM);
 		mNameBox->SetText("???");
 		mTextBox->SetText("Why, hello there, fellow dev.");
 		ProceedToScenePart(1);
@@ -52,11 +33,11 @@ bool Scene0::Play()
 	{
 		mChoiceButton1->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::MIDTOP);
 		mChoiceButton1->SetText("YAS!");
-		mChoiceButton1->OnLeftClick([this]() { this->mPart = 4; });
+		mChoiceButton1->OnLeftClick([this]() { mSceneData->likability++; this->mPart = 4; });
 		mChoiceButton1->Show();
 		mChoiceButton2->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::MIDDLEY);
 		mChoiceButton2->SetText("...Why is the background so creepy?");
-		mChoiceButton2->OnLeftClick([this]() { this->mPart = 5; });
+		mChoiceButton2->OnLeftClick([this]() { mSceneData->likability--; this->mPart = 5; });
 		mChoiceButton2->Show();
 	}
 	else if (mPart == 4)
@@ -85,7 +66,7 @@ bool Scene0::Play()
 	else if (mPart == 7)
 	{
 		mChoiceButton1->SetText("No! Change it back!");
-		mChoiceButton1->OnLeftClick([this]() { this->mPart = 8; });
+		mChoiceButton1->OnLeftClick([this]() { mSceneData->likability--; this->mPart = 8; });
 		mChoiceButton1->Show();
 		mChoiceButton2->SetText("Yes, actually.");
 		mChoiceButton2->OnLeftClick([this]() { this->mPart = 11; });
@@ -123,6 +104,7 @@ bool Scene0::Play()
 	{
 		mVoid->SetSprite("void smile");
 		mTextBox->SetText("Let's keep it this way then. I quite like this forest myself.");
+		mSceneData->backgroundSprite = "creepy forest";
 		ProceedToScenePart(13);
 	}
 	else if (mPart == 13)

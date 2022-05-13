@@ -1,10 +1,10 @@
 #pragma once
 #include "Scene.h"
 
-class Scene1 : public Scene
+class Scene3 : public Scene
 {
 public:
-	Scene1(std::shared_ptr<wand::App> app, 
+	Scene3(std::shared_ptr<wand::App> app,
 		std::shared_ptr<AssetManager> assetManager, std::shared_ptr<SceneData> sceneData);
 	bool Play() override;
 };

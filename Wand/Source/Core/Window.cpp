@@ -72,6 +72,17 @@ namespace wand
 	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
 	bool Window::IsClosed() const {	return glfwWindowShouldClose(mWindow) == 1;	}
 
+	void Window::OnClose(std::function<void()> closeFunction)
+	{
+		mCloseFunctions.emplace_back(closeFunction);
+	}
+
+	void Window::RunCloseFunctions()
+	{
+		for (auto& closeFunction : mCloseFunctions)
+			closeFunction();
+	}
+
 	void Window::Clear() const
 	{
 		// Clear the background with a given color as well as the depth buffer
@@ -147,6 +158,13 @@ namespace wand
 		{
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			WindowResizeEvent* event = new WindowResizeEvent((unsigned int)width, (unsigned int)height);
+			data->EventCallback(event);
+		});
+
+		glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window)
+		{
+			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+			WindowCloseEvent* event = new WindowCloseEvent();
 			data->EventCallback(event);
 		});
 	}
