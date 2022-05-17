@@ -12,6 +12,7 @@ Scene::Scene(std::shared_ptr<wand::App> app,
 	mVoid = mAssetManager->Get<wand::Character*>("Void");
 	mChoiceButton1 = mAssetManager->Get<wand::Button*>("choice button 1");
 	mChoiceButton2 = mAssetManager->Get<wand::Button*>("choice button 2");
+	mBlob = mAssetManager->Get<wand::Sprite*>("blob");
 	float scale = mBackground->GetTransform()->GetScale().x;
 
 	// Customize the entities
@@ -22,9 +23,13 @@ Scene::Scene(std::shared_ptr<wand::App> app,
 	mChoiceButton1->SetParentLayout(mChoiceButtonRect->GetTransform());
 	mChoiceButton1->GetTextTransform()->SetWidth(mChoiceButton1->GetTransform()->GetWidth() - 20 * scale);
 	mChoiceButton1->GetTextTransform()->SetHeight(mChoiceButton1->GetTransform()->GetHeight() - 20 * scale);
+	mChoiceButton1->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::MIDTOP);
 	mChoiceButton2->SetParentLayout(mChoiceButtonRect->GetTransform());
 	mChoiceButton2->GetTextTransform()->SetWidth(mChoiceButton2->GetTransform()->GetWidth() - 20 * scale);
 	mChoiceButton2->GetTextTransform()->SetHeight(mChoiceButton2->GetTransform()->GetHeight() - 20 * scale);
+	mChoiceButton2->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::MIDDLEY);
+
+	mBlob->SetParentLayout(mBackground->GetTransform());
 }
 
 void Scene::ProceedToScenePart(unsigned int scenePart)

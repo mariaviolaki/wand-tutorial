@@ -1,18 +1,18 @@
-#include "Scene3.h"
+#include "Scene4.h"
 
-Scene3::Scene3(std::shared_ptr<wand::App> app,
+Scene4::Scene4(std::shared_ptr<wand::App> app,
 	std::shared_ptr<AssetManager> assetManager, std::shared_ptr<SceneData> sceneData)
 	: Scene(app, assetManager, sceneData)
 {}
 
-bool Scene3::Play()
+bool Scene4::Play()
 {
 	bool isPlaying = true;
 
 	if (mPart == 0)
 	{
-		mVoid->SetSprite("void smile");
-		mTextBox->SetText("Let's continue then.");
+		mVoid->SetSprite("void confident");
+		mTextBox->SetText("Music!");
 		ProceedToScenePart(1);
 	}
 

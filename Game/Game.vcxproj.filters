@@ -24,19 +24,22 @@
     <ClCompile Include="Code\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Scene.cpp">
+    <ClCompile Include="Code\Scenes\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Scene0.cpp">
+    <ClCompile Include="Code\Scenes\Scene0.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Scene1.cpp">
+    <ClCompile Include="Code\Scenes\Scene1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Scene2.cpp">
+    <ClCompile Include="Code\Scenes\Scene2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Scene3.cpp">
+    <ClCompile Include="Code\Scenes\Scene3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Scenes\Scene4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,19 +50,22 @@
     <ClInclude Include="Code\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Scene.h">
+    <ClInclude Include="Code\Scenes\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Scene0.h">
+    <ClInclude Include="Code\Scenes\Scene0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Scene1.h">
+    <ClInclude Include="Code\Scenes\Scene1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Scene2.h">
+    <ClInclude Include="Code\Scenes\Scene2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Scene3.h">
+    <ClInclude Include="Code\Scenes\Scene3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Scenes\Scene4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -102,7 +102,7 @@ bool Scene2::Play()
 	{
 		mTextBox->SetText("You can use these even more easily though "
 			+ std::string("since they're simple, static functions that belong ")
-			+ std::string("in their respective category within the wand namespace."));
+			+ std::string("to their respective category within the wand namespace."));
 		ProceedToScenePart(13);
 	}
 	else if (mPart == 13)

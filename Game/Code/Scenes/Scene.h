@@ -1,6 +1,6 @@
 #pragma once
 #include "Wand.h"
-#include "AssetManager.h"
+#include "../AssetManager.h"
 
 struct SceneData
 {
@@ -30,6 +30,7 @@ protected:
 	wand::Character* mVoid;
 	wand::Button* mChoiceButton1;
 	wand::Button* mChoiceButton2;
+	wand::Sprite* mBlob;
 
 	Scene(std::shared_ptr<wand::App> app, 
 		std::shared_ptr<AssetManager> assetManager, std::shared_ptr<SceneData> sceneData);

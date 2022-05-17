@@ -77,7 +77,18 @@ void AssetManager::LoadFonts()
 }
 
 void AssetManager::LoadSprites()
-{}
+{
+	std::string imageDir = mApp->GetFileManager()->GetRootFolder() + "Game\\Images\\";
+
+	// Load a blob sprite
+	auto blob = mApp->GetEntityManager()->AddSprite(imageDir + "blob.png");
+	mSprites.emplace_back(blob);
+	blob->SetLabel("blob");
+	blob->GetTransform()->SetLayer(1);
+	blob->GetTransform()->SetWidth(200);
+	blob->GetTransform()->SetHeight(160);
+	blob->Hide();
+}
 
 void AssetManager::LoadRectangles()
 {
@@ -210,6 +221,10 @@ void AssetManager::LoadCharacters()
 	auto voidCalm = mApp->GetEntityManager()->AddSprite(imageDir + "void_calm.png");
 	voidCalm->SetLabel("void calm");
 	cVoid->AddSprite(voidCalm);
+
+	auto voidSuperEvil = mApp->GetEntityManager()->AddSprite(imageDir + "void_super_evil.png");
+	voidSuperEvil->SetLabel("void super evil");
+	cVoid->AddSprite(voidSuperEvil);
 
 	// Set common character data after loading all sprites
 	cVoid->SetWidth(450);

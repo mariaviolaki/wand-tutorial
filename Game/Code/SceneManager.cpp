@@ -1,8 +1,9 @@
 #include "SceneManager.h"
-#include "Scene0.h"
-#include "Scene1.h"
-#include "Scene2.h"
-#include "Scene3.h"
+#include "Scenes/Scene0.h"
+#include "Scenes/Scene1.h"
+#include "Scenes/Scene2.h"
+#include "Scenes/Scene3.h"
+#include "Scenes/Scene4.h"
 
 SceneManager::SceneManager(std::shared_ptr<wand::App> app, std::shared_ptr<AssetManager> assetManager)
 	: mApp(app), mAssetManager(assetManager), mSceneData(std::make_shared<SceneData>()), mSceneIndex(0)
@@ -18,6 +19,7 @@ SceneManager::SceneManager(std::shared_ptr<wand::App> app, std::shared_ptr<Asset
 	mScenes.emplace(std::make_pair(1, std::make_unique<Scene1>(mApp, mAssetManager, mSceneData)));
 	mScenes.emplace(std::make_pair(2, std::make_unique<Scene2>(mApp, mAssetManager, mSceneData)));
 	mScenes.emplace(std::make_pair(3, std::make_unique<Scene3>(mApp, mAssetManager, mSceneData)));
+	mScenes.emplace(std::make_pair(4, std::make_unique<Scene4>(mApp, mAssetManager, mSceneData)));
 	// Set the starting scene
 	SetStartingScene();
 }
@@ -64,13 +66,6 @@ void SceneManager::SaveSceneData()
 
 void SceneManager::SetStartingScene()
 {
-	switch (mSceneData->lastSceneIndex)
-	{
-	case 1:
-		mSceneIndex = 2;
-		break;
-	case 2:
-		mSceneIndex = 3;
-		break;
-	}
+	if (mSceneData->lastSceneIndex > 0)
+		mSceneIndex = mSceneData->lastSceneIndex + 1;
 }

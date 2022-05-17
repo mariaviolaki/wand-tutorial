@@ -103,22 +103,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\AssetManager.cpp" />
-    <ClCompile Include="Code\Scene.cpp" />
-    <ClCompile Include="Code\Scene0.cpp" />
-    <ClCompile Include="Code\Scene1.cpp" />
-    <ClCompile Include="Code\Scene2.cpp" />
-    <ClCompile Include="Code\Scene3.cpp" />
+    <ClCompile Include="Code\Scenes\Scene.cpp" />
+    <ClCompile Include="Code\Scenes\Scene0.cpp" />
+    <ClCompile Include="Code\Scenes\Scene1.cpp" />
+    <ClCompile Include="Code\Scenes\Scene2.cpp" />
+    <ClCompile Include="Code\Scenes\Scene3.cpp" />
     <ClCompile Include="Code\SceneManager.cpp" />
+    <ClCompile Include="Code\Scenes\Scene4.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\AssetManager.h" />
-    <ClInclude Include="Code\Scene.h" />
-    <ClInclude Include="Code\Scene0.h" />
-    <ClInclude Include="Code\Scene1.h" />
-    <ClInclude Include="Code\Scene2.h" />
-    <ClInclude Include="Code\Scene3.h" />
+    <ClInclude Include="Code\Scenes\Scene.h" />
+    <ClInclude Include="Code\Scenes\Scene0.h" />
+    <ClInclude Include="Code\Scenes\Scene1.h" />
+    <ClInclude Include="Code\Scenes\Scene2.h" />
+    <ClInclude Include="Code\Scenes\Scene3.h" />
     <ClInclude Include="Code\SceneManager.h" />
+    <ClInclude Include="Code\Scenes\Scene4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

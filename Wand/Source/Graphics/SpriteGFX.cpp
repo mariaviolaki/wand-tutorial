@@ -46,9 +46,10 @@ namespace wand
 	{
 		glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }; // solid white for sprites
 		float isText = 0.0f;
+		Vector2 transformedPos = mTransform->GetTransformedPos(posX, posY);
 
 		Vertex v;
-		v.position = { posX, posY, 1.0f };
+		v.position = { transformedPos.x, transformedPos.y, 1.0f };
 		v.color = color;
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();

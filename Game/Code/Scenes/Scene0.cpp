@@ -31,11 +31,9 @@ bool Scene0::Play()
 	}
 	else if (mPart == 3)
 	{
-		mChoiceButton1->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::MIDTOP);
 		mChoiceButton1->SetText("YAS!");
 		mChoiceButton1->OnLeftClick([this]() { mSceneData->likability++; this->mPart = 4; });
 		mChoiceButton1->Show();
-		mChoiceButton2->SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::MIDDLEY);
 		mChoiceButton2->SetText("...Why is the background so creepy?");
 		mChoiceButton2->OnLeftClick([this]() { mSceneData->likability--; this->mPart = 5; });
 		mChoiceButton2->Show();

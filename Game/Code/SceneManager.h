@@ -1,7 +1,7 @@
 #pragma once
 #include "Wand.h"
 #include "AssetManager.h"
-#include "Scene.h"
+#include "Scenes/Scene.h"
 
 class SceneManager
 {
