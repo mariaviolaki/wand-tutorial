@@ -23,7 +23,6 @@ public:
 
 private:
 	wand::App* mApp;
-	std::vector<wand::Font*> mFonts;
 	std::vector<wand::Sprite*> mSprites;
 	std::vector<wand::Rectangle*> mRectangles;
 	std::vector<wand::TextBox*> mTextBoxes;
@@ -41,4 +40,6 @@ private:
 	// Load visual novel entities
 	void LoadBackgrounds();
 	void LoadCharacters();
+	// Load audio files
+	void LoadAudio();
 };

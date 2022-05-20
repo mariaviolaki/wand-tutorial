@@ -1,6 +1,7 @@
 #pragma once
 #include "Wand.h"
 #include "AssetManager.h"
+#include "SceneDataManager.h"
 #include "Scenes/Scene.h"
 
 class SceneManager
@@ -13,11 +14,9 @@ public:
 private:
 	std::shared_ptr<wand::App> mApp;
 	std::shared_ptr<AssetManager> mAssetManager;
-	std::shared_ptr<SceneData> mSceneData;
+	std::shared_ptr<SceneDataManager> mSceneDataManager;
 	std::unordered_map<unsigned int, std::unique_ptr<Scene>> mScenes;
 	unsigned int mSceneIndex;
 
-	void LoadSceneData();
-	void SaveSceneData();
 	void SetStartingScene();
 };

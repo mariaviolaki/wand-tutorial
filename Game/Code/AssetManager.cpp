@@ -11,6 +11,7 @@ AssetManager::AssetManager(wand::App* app)
 	LoadButtons();
 	LoadBackgrounds();
 	LoadCharacters();
+	LoadAudio();
 }
 
 template<>
@@ -72,8 +73,7 @@ void AssetManager::LoadFonts()
 {
 	std::string fontDir = mApp->GetFileManager()->GetRootFolder() + "Game\\Fonts\\";
 
-	mApp->GetFontManager()->Add(fontDir + "Sundae-Ice.ttf", "Sundae-Ice", 30);
-	mFonts.emplace_back(mApp->GetFontManager()->Get("Sundae-Ice", 30));
+	mApp->GetFontManager()->Add(fontDir + "Sundae-Ice.ttf", "Sundae-Ice");
 }
 
 void AssetManager::LoadSprites()
@@ -226,8 +226,22 @@ void AssetManager::LoadCharacters()
 	voidSuperEvil->SetLabel("void super evil");
 	cVoid->AddSprite(voidSuperEvil);
 
+	auto voidShy = mApp->GetEntityManager()->AddSprite(imageDir + "void_shy_2.png");
+	voidShy->SetLabel("void shy");
+	cVoid->AddSprite(voidShy);
+
 	// Set common character data after loading all sprites
 	cVoid->SetWidth(450);
 	cVoid->SetHeight(mApp->GetWindow()->GetStartHeight() - 20);
 	cVoid->SetLayer(1);
+}
+
+void AssetManager::LoadAudio()
+{
+	std::string audioDir = mApp->GetFileManager()->GetRootFolder() + "Game\\Audio\\";
+
+	// Load music
+	mApp->GetAudioManager()->Add("Audio/whip.ogg", "whip", true);
+	// Load sound effects
+	mApp->GetAudioManager()->Add("Audio/spell.ogg", "spell", false);
 }

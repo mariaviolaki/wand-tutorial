@@ -1,9 +1,8 @@
 .vs/
 *.vcxproj.user
-bin/
 bin-int/
+Game/Saves/
 *.exe
 *.pdb
 *.idb
-*.lib
 log.txt

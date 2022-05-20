@@ -1,27 +1,23 @@
 #pragma once
 #include "Wand.h"
 #include "../AssetManager.h"
-
-struct SceneData
-{
-	int lastSceneIndex;
-	int likability;
-	std::string backgroundSprite;
-};
+#include "../SceneDataManager.h"
 
 class Scene
 {
 public:
 	// Returns true when the scene is finished
 	virtual bool Play() = 0;
-	void ProceedToScenePart(unsigned int scenePart);
+	void ProceedToScenePart(unsigned int scenePart, bool playSound = false);
+	void ProceedAndPlaySound(unsigned int scenePart);
 
 protected:
 	std::shared_ptr<wand::App> mApp;
 	std::shared_ptr<AssetManager> mAssetManager;
-	std::shared_ptr<SceneData> mSceneData;
+	std::shared_ptr<SceneDataManager> mSceneDataManager;
 	unsigned int mPart; // the specific part of the scene
-
+	bool mIsDataSaved;
+	std::unique_ptr<SceneData> mSceneData;
 	// Assets that all scenes should have access to
 	wand::Rectangle* mChoiceButtonRect;
 	wand::TextBox* mNameBox;
@@ -32,6 +28,8 @@ protected:
 	wand::Button* mChoiceButton2;
 	wand::Sprite* mBlob;
 
-	Scene(std::shared_ptr<wand::App> app, 
-		std::shared_ptr<AssetManager> assetManager, std::shared_ptr<SceneData> sceneData);
+	Scene(std::shared_ptr<wand::App> app, std::shared_ptr<AssetManager> assetManager,
+		std::shared_ptr<SceneDataManager> sceneDataManager);
+	void LoadData();
+	void SaveData();
 };

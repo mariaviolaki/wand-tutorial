@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\AssetManager.cpp" />
+    <ClCompile Include="Code\SceneDataManager.cpp" />
     <ClCompile Include="Code\Scenes\Scene.cpp" />
     <ClCompile Include="Code\Scenes\Scene0.cpp" />
     <ClCompile Include="Code\Scenes\Scene1.cpp" />
@@ -110,10 +111,12 @@
     <ClCompile Include="Code\Scenes\Scene3.cpp" />
     <ClCompile Include="Code\SceneManager.cpp" />
     <ClCompile Include="Code\Scenes\Scene4.cpp" />
+    <ClCompile Include="Code\Scenes\Scene5.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\AssetManager.h" />
+    <ClInclude Include="Code\SceneDataManager.h" />
     <ClInclude Include="Code\Scenes\Scene.h" />
     <ClInclude Include="Code\Scenes\Scene0.h" />
     <ClInclude Include="Code\Scenes\Scene1.h" />
@@ -121,6 +124,7 @@
     <ClInclude Include="Code\Scenes\Scene3.h" />
     <ClInclude Include="Code\SceneManager.h" />
     <ClInclude Include="Code\Scenes\Scene4.h" />
+    <ClInclude Include="Code\Scenes\Scene5.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
