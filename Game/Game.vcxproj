@@ -129,6 +129,14 @@
     <ClInclude Include="Code\Scenes\Scene5.h" />
     <ClInclude Include="Code\Scenes\Scene6.h" />
     <ClInclude Include="Code\Scenes\Scene7.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\wand.ico" />
+    <Image Include="Images\wand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WandTutorial.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

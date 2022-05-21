@@ -3,6 +3,8 @@
 AssetManager::AssetManager(wand::App* app)
 	: mApp(app)
 {
+	// Set a window icon
+	app->GetWindow()->SetIcon(app->GetFileManager()->GetRootFolder() + "Game/Images/wand.png");
 	// Load all assets into the engine
 	LoadFonts();
 	LoadSprites();
@@ -73,7 +75,7 @@ void AssetManager::LoadFonts()
 {
 	std::string fontDir = mApp->GetFileManager()->GetRootFolder() + "Game\\Fonts\\";
 
-	mApp->GetFontManager()->Add(fontDir + "Sundae-Ice.ttf", "Sundae-Ice");
+	mApp->GetFontManager()->Add(fontDir + "neuton-regular.ttf", "neuton-regular");
 }
 
 void AssetManager::LoadSprites()
@@ -117,14 +119,24 @@ void AssetManager::LoadRectangles()
 	choiceButtonRect->GetTransform()->SetPos(0, 0);
 	choiceButtonRect->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth());
 	choiceButtonRect->GetTransform()->SetHeight(mApp->GetWindow()->GetStartHeight());
-	choiceButtonRect->GetTransform()->SetLayer(4);
+	choiceButtonRect->GetTransform()->SetLayer(6);
 	choiceButtonRect->Hide();
+
+	// Background rectangle for character names
+	auto creditsRect = mApp->GetEntityManager()->AddRectangle(wand::Color(51, 51, 51, 240));
+	mRectangles.emplace_back(creditsRect);
+	creditsRect->SetLabel("credits rect");
+	creditsRect->GetTransform()->SetPos(0, 0);
+	creditsRect->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth());
+	creditsRect->GetTransform()->SetHeight(mApp->GetWindow()->GetStartHeight());
+	creditsRect->GetTransform()->SetLayer(4);
+	creditsRect->Hide();
 }
 
 void AssetManager::LoadTextBoxes()
 {
 	// Textbox for main text
-	auto textBox = mApp->GetEntityManager()->AddTextBox("Sundae-Ice", 30, wand::Color(255, 255, 255, 255));
+	auto textBox = mApp->GetEntityManager()->AddTextBox("neuton-regular", 30, wand::Color(255, 255, 255, 255));
 	mTextBoxes.emplace_back(textBox);
 	textBox->GetTransform()->SetPos(20, 10);
 	textBox->GetTransform()->SetLayer(3);
@@ -133,28 +145,38 @@ void AssetManager::LoadTextBoxes()
 	textBox->SetLabel("textbox");
 
 	// Textbox for character names
-	auto nameBox = mApp->GetEntityManager()->AddTextBox("Sundae-Ice", 40, wand::Color(237, 175, 184, 255));
+	auto nameBox = mApp->GetEntityManager()->AddTextBox("neuton-regular", 40, wand::Color(237, 175, 184, 255));
 	mTextBoxes.emplace_back(nameBox);
 	nameBox->GetTransform()->SetPos(20, 140);
 	nameBox->GetTransform()->SetLayer(3);
 	nameBox->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth() - 20);
 	nameBox->GetTransform()->SetHeight(50);
 	nameBox->SetLabel("namebox");
+
+	// Textbox for credits
+	auto creditsBox = mApp->GetEntityManager()->AddTextBox("neuton-regular", 30, wand::Color(255, 255, 255, 255));
+	mTextBoxes.emplace_back(creditsBox);
+	creditsBox->GetTransform()->SetPos(20, 20);
+	creditsBox->GetTransform()->SetLayer(5);
+	creditsBox->GetTransform()->SetWidth(mApp->GetWindow()->GetStartWidth() - 40);
+	creditsBox->GetTransform()->SetHeight(mApp->GetWindow()->GetStartHeight() - 40);
+	creditsBox->SetLabel("creditsbox");
+	creditsBox->Hide();
 }
 
 void AssetManager::LoadButtons()
 {
 	std::string imageDir = mApp->GetFileManager()->GetRootFolder() + "Game\\Images\\";
-	// Create 3 choice buttons
-	for (int i = 1; i < 4; i++)
+	// Create 2 choice buttons
+	for (int i = 1; i < 3; i++)
 	{
 		auto choiceButton = mApp->GetEntityManager()->AddButton(
-			imageDir + "choice_button.png", "Sundae-Ice", 25, wand::Color(255, 255, 255, 255));
+			imageDir + "choice_button.png", "neuton-regular", 25, wand::Color(255, 255, 255, 255));
 		mButtons.emplace_back(choiceButton);
 		choiceButton->SetLabel("choice button " + std::to_string(i));
 		choiceButton->GetTransform()->SetWidth((2 * mApp->GetWindow()->GetStartWidth()) / 3);
 		choiceButton->GetTransform()->SetHeight(100);
-		choiceButton->GetTransform()->SetLayer(4);
+		choiceButton->GetTransform()->SetLayer(7);
 		choiceButton->Hide();
 	}
 }

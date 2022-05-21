@@ -18,7 +18,7 @@ namespace wand
 	class App
 	{
 	public:
-		App();
+		App(std::string name = "Wand Game", unsigned int width = 960, unsigned int height = 540);
 		~App();
 
 		void Clear() const;
