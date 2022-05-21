@@ -16,7 +16,7 @@ bool Scene0::Play()
 		LoadData();
 		mPart = 1;
 	}
-	if (mPart == 1)
+	else if (mPart == 1)
 	{
 		mBackground->SetSprite("weird forest");
 		mVoid->SetSprite("void smile");

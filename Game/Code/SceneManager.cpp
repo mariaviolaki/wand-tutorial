@@ -5,6 +5,8 @@
 #include "Scenes/Scene3.h"
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
+#include "Scenes/Scene6.h"
+#include "Scenes/Scene7.h"
 
 SceneManager::SceneManager(std::shared_ptr<wand::App> app, std::shared_ptr<AssetManager> assetManager)
 	: mApp(app), mAssetManager(assetManager), mSceneDataManager(nullptr), mSceneIndex(0)
@@ -18,24 +20,19 @@ SceneManager::SceneManager(std::shared_ptr<wand::App> app, std::shared_ptr<Asset
 	mScenes.emplace(std::make_pair(3, std::make_unique<Scene3>(mApp, mAssetManager, mSceneDataManager)));
 	mScenes.emplace(std::make_pair(4, std::make_unique<Scene4>(mApp, mAssetManager, mSceneDataManager)));
 	mScenes.emplace(std::make_pair(5, std::make_unique<Scene5>(mApp, mAssetManager, mSceneDataManager)));
-	SetStartingScene();
+	mScenes.emplace(std::make_pair(6, std::make_unique<Scene6>(mApp, mAssetManager, mSceneDataManager)));
+	mScenes.emplace(std::make_pair(7, std::make_unique<Scene7>(mApp, mAssetManager, mSceneDataManager)));
+	// Start game from the last saved scene
+	mSceneIndex = mSceneDataManager->GetData()->lastSceneIndex + 1;
 }
 
 void SceneManager::PlayScenes()
 {
-	// Don't continue if all the scenes are finished
+	// Start over when all the scenes are finished
 	if (mSceneIndex == mScenes.size())
-		return;
+		mSceneIndex = 0;
 
 	// Once the scene is over, play the next one
 	if (!mScenes[mSceneIndex]->Play())
 		mSceneIndex++;
-}
-
-void SceneManager::SetStartingScene()
-{
-	// Start game from the last saved scene
-	SceneData* sceneData = mSceneDataManager->GetData();
-	if (sceneData->lastSceneIndex > 0)
-		mSceneIndex = sceneData->lastSceneIndex + 1;
 }

@@ -17,7 +17,7 @@ bool Scene3::Play()
 		mBackground->SetSprite(mSceneData->backgroundSprite);
 		mPart = 1;
 	}
-	if (mPart == 1)
+	else if (mPart == 1)
 	{
 		mVoid->SetSprite("void smile");
 		mTextBox->SetText("Let's continue then.");

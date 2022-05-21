@@ -17,7 +17,7 @@ bool Scene1::Play()
 		mBackground->SetSprite(mSceneData->backgroundSprite);
 		mPart = 1;
 	}
-	if (mPart == 1)
+	else if (mPart == 1)
 	{
 		mTextBox->SetText("Everything you see on the screen is made up of 3 basic UI entities: "
 			+ std::string("Rectangles, Sprites, and TextBoxes."));

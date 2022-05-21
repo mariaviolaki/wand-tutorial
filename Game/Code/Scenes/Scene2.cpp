@@ -17,7 +17,7 @@ bool Scene2::Play()
 		mBackground->SetSprite(mSceneData->backgroundSprite);
 		mPart = 1;
 	}
-	if (mPart == 1)
+	else if (mPart == 1)
 	{
 		mVoid->SetSprite("void confident");
 		mTextBox->SetText("Welcome back. Let's see...");
@@ -71,62 +71,69 @@ bool Scene2::Play()
 	}
 	else if (mPart == 7)
 	{
-		mTextBox->SetText("You may also need to set an OnClose function to the window. "
-			+ std::string("This way, you'll do everything you need to do ")
-			+ std::string("right before the player closes the window."));
+		mTextBox->SetText("Everything is loaded and saved as a name-value pair. 'Likability', "
+			+ std::string("for instance, is stored as an 'int'. Right now, it has the value of ")
+			+ std::to_string(mSceneData->likability) + std::string(", by the way."));
 		ProceedToScenePart(8);
 	}
 	else if (mPart == 8)
 	{
-		mVoid->SetSprite("void calm");
-		mTextBox->SetText("Now, you might be wondering where you can find all these things.");
+		mTextBox->SetText("You may also need to set an OnClose function to the window. "
+			+ std::string("This way, you'll do everything you need to do ")
+			+ std::string("right before the player closes the window."));
 		ProceedToScenePart(9);
 	}
 	else if (mPart == 9)
 	{
-		mVoid->SetSprite("void smile");
-		mTextBox->SetText("It's simple, really.");
+		mVoid->SetSprite("void calm");
+		mTextBox->SetText("Now, you might be wondering where you can find all these things.");
 		ProceedToScenePart(10);
 	}
 	else if (mPart == 10)
 	{
-		mTextBox->SetText("All the major subsystems belong to the App. This includes things like "
-			+ std::string("input, entities, states, fonts, audio, cursors, files, ")
-			+ std::string("as well as the window itself."));
+		mVoid->SetSprite("void smile");
+		mTextBox->SetText("It's simple, really.");
 		ProceedToScenePart(11);
 	}
 	else if (mPart == 11)
 	{
-		mTextBox->SetText("Whenever you need to access any of those, just request it from the app.");
+		mTextBox->SetText("All the major subsystems belong to the App. This includes things like "
+			+ std::string("input, entities, states, fonts, audio, cursors, files, ")
+			+ std::string("as well as the window itself."));
 		ProceedToScenePart(12);
 	}
 	else if (mPart == 12)
 	{
-		mTextBox->SetText("The engine also provides easy ways to generate random numbers, "
-			+ std::string("log things for debugging purposes, and several other utility functions."));
+		mTextBox->SetText("Whenever you need to access any of those, just request it from the app.");
 		ProceedToScenePart(13);
 	}
 	else if (mPart == 13)
 	{
-		mTextBox->SetText("You can use these even more easily though "
-			+ std::string("since they're simple, static functions that belong ")
-			+ std::string("to their respective category within the wand namespace."));
+		mTextBox->SetText("The engine also provides easy ways to generate random numbers, "
+			+ std::string("log things for debugging purposes, and several other utility functions."));
 		ProceedToScenePart(14);
 	}
 	else if (mPart == 14)
 	{
-		mVoid->SetSprite("void calm");
-		mTextBox->SetText("For example, to get a random integer between 1 and 10, "
-			+ std::string("all you have to do is type: 'wand::Random::GetInt(1, 10);'"));
+		mTextBox->SetText("You can use these even more easily though "
+			+ std::string("since they're simple, static functions that belong ")
+			+ std::string("to their respective category within the wand namespace."));
 		ProceedToScenePart(15);
 	}
 	else if (mPart == 15)
 	{
-		mVoid->SetSprite("void confident");
-		mTextBox->SetText("Alright. All this monotonous talking is boring me to death.");
+		mVoid->SetSprite("void calm");
+		mTextBox->SetText("For example, to get a random integer between 1 and 10, "
+			+ std::string("all you have to do is type: 'wand::Random::GetInt(1, 10);'"));
 		ProceedToScenePart(16);
 	}
 	else if (mPart == 16)
+	{
+		mVoid->SetSprite("void confident");
+		mTextBox->SetText("Alright. All this monotonous talking is boring me to death.");
+		ProceedToScenePart(17);
+	}
+	else if (mPart == 17)
 	{
 		mVoid->SetSprite("void smile");
 		mTextBox->SetText("Feel free to close the window again, if you want, and go take a break. "
@@ -134,36 +141,36 @@ bool Scene2::Play()
 			+ std::string("we'll continue with something a bit more interesting."));
 		mSceneData->lastSceneIndex = 2;
 		SaveData();
-		ProceedToScenePart(17);
-	}
-	else if (mPart == 17)
-	{
-		mTextBox->SetText("...");
 		ProceedToScenePart(18);
 	}
 	else if (mPart == 18)
 	{
-		mTextBox->SetText(".........");
+		mTextBox->SetText("...");
 		ProceedToScenePart(19);
 	}
 	else if (mPart == 19)
 	{
-		mVoid->SetSprite("void surprised");
-		mTextBox->SetText("Oh?");
+		mTextBox->SetText(".........");
 		ProceedToScenePart(20);
 	}
 	else if (mPart == 20)
 	{
-		mTextBox->SetText("You're still here?");
+		mVoid->SetSprite("void surprised");
+		mTextBox->SetText("Oh?");
 		ProceedToScenePart(21);
 	}
 	else if (mPart == 21)
 	{
-		mVoid->SetSprite("void shy smile");
-		mTextBox->SetText("Thanks for hanging around.");
+		mTextBox->SetText("You're still here?");
 		ProceedToScenePart(22);
 	}
 	else if (mPart == 22)
+	{
+		mVoid->SetSprite("void shy smile");
+		mTextBox->SetText("Thanks for hanging around.");
+		ProceedToScenePart(23);
+	}
+	else if (mPart == 23)
 	{
 		mSceneData->likability++;
 		mIsDataSaved = false;

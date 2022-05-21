@@ -17,6 +17,4 @@ private:
 	std::shared_ptr<SceneDataManager> mSceneDataManager;
 	std::unordered_map<unsigned int, std::unique_ptr<Scene>> mScenes;
 	unsigned int mSceneIndex;
-
-	void SetStartingScene();
 };
